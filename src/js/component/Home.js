@@ -11,8 +11,11 @@ const Home = () => {
 			method: "GET",
 		})
 			.then((respuesta) => {
-				console.log(respuesta);
-				return respuesta.json();
+				if (!respuesta.ok) {
+					crearUsuario();
+				} else {
+					return respuesta.json();
+				}
 			})
 			.then((data) => {
 				console.log(data);
@@ -20,6 +23,19 @@ const Home = () => {
 			})
 			.catch((error) => { console.error(error) });
 	};
+
+	const crearUsuario = () => {
+		fetch("https://playground.4geeks.com/todo/users/alba", { method: "POST" })
+			.then((respuesta) => {
+				return respuesta.json()
+			})
+			.then(() => {
+				getTodos();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 	const añadirTodo = () => {
 		const newTodoObj = {
